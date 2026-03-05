@@ -10,9 +10,12 @@ namespace zipline
 class ZipSystem;
 class Order;
 
+// Yes repeating, lazy
+using ZipSystemId = int;
+
 struct AssignmentResult
 {
-  std::unordered_map<int, std::vector<Order>> assignedOrders; ///< Zip system to list of orders
+  std::unordered_map<ZipSystemId, std::vector<Order>> assignedOrders; ///< Zip system to list of orders
   std::vector<Order> unassignedOrders; ///< Order we aren't gonna fulfill yet
 };
 

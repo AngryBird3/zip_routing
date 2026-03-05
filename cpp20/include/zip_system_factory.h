@@ -4,7 +4,9 @@
 #include <vector>
 
 namespace zipline {
-class zip_system_factory {
-  static std::vector<ZipSystem> Create(int kNumZips, std::size_t capacity, const std::vector<Location>& locations, unsigned seed = 42);
+class ZipSystemFactory {
+public:
+  static std::vector<ZipSystem> Create(int kNumZips, std::size_t capacity, ,
+    unsigned seed = 42);
 };
 }

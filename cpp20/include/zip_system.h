@@ -4,6 +4,7 @@
 
 namespace zipline
 {
+using ZipSystemId = int;
 // This is to represent a Zipline robot/drone
 class ZipSystem {
 public:
@@ -15,10 +16,10 @@ public:
      EMERGENCY = 1,
   };
 
-  ZipSystem(int id, int capacity, int maxDistance, Location position, Priority priority = Priority::OTHER)
+  ZipSystem(int id, int capacity, int maxRange, Location position, Priority priority = Priority::OTHER)
     : id_(id)
     , capacity_(capacity)
-    , maxDistance_(maxDistance)
+    , maxRange_(maxRange)
     , position_(position)
     , priority_(priority)
   {}
@@ -27,18 +28,20 @@ public:
 
   Location GetPosition() const { return position_; }
 
+  void SetPosition(Location position) { position_ = position; }
+
   Priority GetPriority() const { return priority_; }
 
   int GetCapacity() const { return capacity_; }
 
-  int GetMaxDistance() const { return maxDistance_; }
+  int GetMaxDistance() const { return maxRange_; }
 
 private:
   int id_{}; ///< ID
 
   int capacity_{}; ///< how much this zip can carry
 
-  int maxDistance_{}; ///< Range. Max distance I can fly
+  int maxRange_{}; ///< Range. Max distance I can fly
 
   Location position_{}; ///< Where am I
 

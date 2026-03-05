@@ -6,6 +6,7 @@
 #include "flight.h"
 #include "order.h"
 #include "util.h"
+#include "zip_system_state_actor.h"
 
 namespace zipline {
 class RoutingPolicy;}namespace zipline
@@ -17,19 +18,23 @@ class ZipSystem;
 class ZipScheduler
 {
 public:
-    ZipScheduler(const std::vector<ZipSystem>& zips);
+    ZipScheduler(const std::vector<ZipSystem>& zips, std::shared_ptr<SpatialModelInterface> spatialModel);
 
     // Add an order to the queue to potentially launch at the next time LaunchFlights is called.
     void QueueOrder(const Order &order);
 
     // Returns an ordered list of flights to launch.
     std::vector<Flight> LaunchFlights(Timestamp current_time);
+
+    void Tick(Timestamp now);
 private:
-    std::vector<ZipSystem> zips_; ///< ALL zip
-    std::vector<Order> orderQueue_; ///< Current order
-    std::unique_ptr<AssignmentPolicy> assignmentPolicy_; ///< Assigning order to zip
+    const ZipSystem zips_{}; ///< ALL zip
+    std::vector<Order> orderQueue_{}; ///< Current order
+    std::unique_ptr<AssignmentPolicy> assignmentPolicy_{}; ///< Assigning order to zip
     // should use std::mutex to protect zips_ if it was multithreaded
-    std::unique_ptr<RoutingPolicy> routePlanner_; ///< Once assigned, plan which dest to hit first
+    std::unique_ptr<RoutingPolicy> routePlanner_{}; ///< Once assigned, plan which dest to hit first
+    std::vector<ZipSystemStateActor>  actors_{};
+    std::shared_ptr<SpatialModelInterface> spatialModel_{};
 };
 
 }  // namespace zipline

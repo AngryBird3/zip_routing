@@ -7,6 +7,5 @@
 * RoutingPolicy - Once Zip system got the order assigned , how it routes from one order to another. Routing internally
 ** Queueing Order
 * Just queue as it comes. Order by received time
-** Timing - TODO
-Ticker. So we can see in time how are zip system moving along and queueing
-Alternative? we can use Speed and distance to calculate the time for trip. I am unsure on this
+** Timing
+StateActor: wraps System, owns runtime state + Tick()

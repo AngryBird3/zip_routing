@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "common_types.h"
+
+
 #include <filesystem>
 #include <string>
 #include <unordered_map>
@@ -31,6 +34,8 @@ class Hospital
     {
         return east_;
     }
+
+    Location GetLocation() const { return {north_, east_}; }
 
    private:
     const std::string name_;

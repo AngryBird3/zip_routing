@@ -16,8 +16,17 @@ class Flight
     {
     }
 
+  Timestamp launchTime() const
+    {
+        return launch_time_;
+    }
+
+  const std::vector<Order> & Orders() const
+    {
+        return orders_;
+    }
    private:
-    Timestamp launch_time_;
-    std::vector<Order> orders_;
+    Timestamp launch_time_{};
+    std::vector<Order> orders_{};
 };
 }  // namespace zipline

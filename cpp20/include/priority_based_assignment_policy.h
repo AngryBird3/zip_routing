@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AssignmentPolicy.h"
-#include "spatial_model.h"
+#include "spatial_model_interface.h"
 
 namespace zipline {
 class priority_based_assignment_policy : public AssignmentPolicy

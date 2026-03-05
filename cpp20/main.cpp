@@ -5,6 +5,7 @@
 
 #include "include/hospital.h"
 #include "order.h"
+#include "zip_system_factory.h"
 #include "include/zip_scheduler.h"
 
 namespace
@@ -32,7 +33,8 @@ int main()
 
     auto orders = Order::LoadOrders("../inputs/orders.csv", hospitals);
 
-    zipline::ZipScheduler scheduler{};
+    auto zips = zipline::ZipSystemFactory::Create(kNumZips, kMaxPackages, kMaxRange);
+    zipline::ZipScheduler scheduler{zips};
 
     size_t order_idx = 0;
     const auto num_orders = orders.size();
