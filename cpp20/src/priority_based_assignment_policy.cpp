@@ -1,10 +1,13 @@
-#include "../include/priority_based_assignment_policy.h"
+#include "priority_based_assignment_policy.h"
+
+
+#include "AssignmentPolicy.h"
 
 #include "zip_system.h"
 
 namespace zipline {
 
-AssignmentResult priority_based_assignment_policy::Assign(const std::vector<ZipSystem> &systems,
+AssignmentResult PriorityBasedAssignmentPolicy::Assign(const std::vector<ZipSystem> &systems,
     const std::vector<Order> &orders) const
 {
     AssignmentResult result;
@@ -55,7 +58,7 @@ AssignmentResult priority_based_assignment_policy::Assign(const std::vector<ZipS
     return result;
 }
 
-bool priority_based_assignment_policy::canHandle(const ZipSystem &system, const Order &order) {
+bool PriorityBasedAssignmentPolicy::canHandle(const ZipSystem &system, const Order &order) {
     if (order.priority() == Order::Priority::kEmergency && system.GetPriority() == ZipSystem::Priority::EMERGENCY)
         return true;
     if (order.priority() == Order::Priority::kResupply && system.GetPriority() == ZipSystem::Priority::OTHER)

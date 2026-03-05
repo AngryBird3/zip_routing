@@ -2,16 +2,17 @@
 
 namespace zipline {
 
-std::vector<ZipSystem> zip_system_factory::Create(
+std::unordered_map<ZipSystemId, ZipSystem> ZipSystemFactory::Create(
       int numZips,
-      std::size_t capacity,
+      int capacity,
       int maxRange,
+      Location position,
       unsigned seed
   ) {
   std::mt19937 rng(seed);
   std::uniform_int_distribution<int> priority_dist(0, 1);
 
-  std::vector<ZipSystem> systems;
+  std::unordered_map<ZipSystemId, ZipSystem> systems;
   systems.reserve(numZips);
 
   for (int i = 0; i < numZips; ++i) {
@@ -19,13 +20,13 @@ std::vector<ZipSystem> zip_system_factory::Create(
         priority_dist(rng) == 1
             ? ZipSystem::Priority::EMERGENCY
             : ZipSystem::Priority::OTHER;
-
-    systems.emplace_back(
+    systems.emplace(i, ZipSystem(
         i,
         capacity,
         maxRange,
+        position,
         priority
-    );
+    ));
   }
 
   return systems;

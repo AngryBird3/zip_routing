@@ -4,7 +4,7 @@
 #include "spatial_model_interface.h"
 
 namespace zipline {
-class priority_based_assignment_policy : public AssignmentPolicy
+class PriorityBasedAssignmentPolicy : public AssignmentPolicy
 {
 public:
   /**

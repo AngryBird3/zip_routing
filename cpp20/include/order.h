@@ -31,6 +31,10 @@ class Order
         : received_time_(received_time), hospital_(hospital), priority_(priority)
     {
     }
+
+    Order(const Order &order);
+    Order &operator=(const Order &order);
+
     static std::vector<Order> LoadOrders(const std::filesystem::path &filename,
                                          const std::unordered_map<std::string, Hospital> &hospitals);
 

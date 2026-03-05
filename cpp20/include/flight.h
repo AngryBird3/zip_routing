@@ -9,6 +9,11 @@
 
 namespace zipline
 {
+
+/**
+ * It represents flight, time it kicked off with order. I bet we can make this guy
+ * responsible for ETA rather than actor- TODO
+ */
 class Flight
 {
    public:

@@ -27,7 +27,7 @@ struct AssignmentResult
  *   region/hex/zone
  *   within radius R
  *   same "nest"
- * Joby priority: Say all priority1 goes in same bucket
+ * Job priority: Say all priority1 goes in same bucket
  * System Load (Zip capacity)
  * Doesn't do: Path, order of delivery
  */

@@ -28,7 +28,9 @@ public:
 
     void Tick(Timestamp now);
 private:
-    const ZipSystem zips_{}; ///< ALL zip
+    ZipSystemStateActor& findActor(const std::vector<ZipSystemStateActor>& vector, int zip);
+
+    std::unordered_map<ZipSystemId, ZipSystem> zips_{}; ///< ALL zip
     std::vector<Order> orderQueue_{}; ///< Current order
     std::unique_ptr<AssignmentPolicy> assignmentPolicy_{}; ///< Assigning order to zip
     // should use std::mutex to protect zips_ if it was multithreaded
