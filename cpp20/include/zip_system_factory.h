@@ -5,6 +5,6 @@
 namespace zipline {
 class ZipSystemFactory {
 public:
-  static std::unordered_map<ZipSystemId, ZipSystem> Create(int kNumZips, int capacity, int maxRange, Location location, unsigned seed = 42);
+  static std::unordered_map<ZipSystemId, ZipSystem> Create(int numZips, int capacity, int maxRange, Location position, int speed, unsigned seed = 42);
 };
 }

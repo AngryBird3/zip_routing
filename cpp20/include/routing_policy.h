@@ -1,22 +1,29 @@
 #pragma once
+#include <memory>
 #include <vector>
 
+#include "common_types.h"
+#include "flight.h"
+#include "spatial_model_interface.h"
+#include "util.h"
 
-namespace zipline
-{
+namespace zipline {
 
 class ZipSystem;
 class Order;
-/**
- * @brief Interface which decides which is next stop - local ordering of a zip system
- * @todo, move logic for ETA here from Actor
- */
-class RoutingPolicy
-{
-public:
-  virtual  ~RoutingPolicy() = default;
 
-  virtual Flight PlanRoute(const ZipSystem& korZipsystem, const std::vector<Order>& korOrders, Timestamp launchTime) = 0;
+/**
+ * @brief Plans route for a zip (ordering of stops) and sets ETA on the returned Flight.
+ */
+class RoutingPolicy {
+public:
+  virtual ~RoutingPolicy() = default;
+
+  virtual Flight PlanRoute(std::shared_ptr<ZipSystem> system,
+                           const std::vector<Order>& orders,
+                           Timestamp launchTime,
+                           Location startingPosition,
+                           std::shared_ptr<SpatialModelInterface> spatialModel) = 0;
 };
 
 }

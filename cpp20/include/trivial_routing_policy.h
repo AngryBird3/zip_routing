@@ -6,6 +6,10 @@
 namespace zipline {
 class TrivialRoutingPolicy : public RoutingPolicy{
 public:
-  std::vector<Flight> PlanRoute(const ZipSystem& korZipsystem, const std::vector<Order>& korOrders, Timestamp launchTime) override;
+  Flight PlanRoute(std::shared_ptr<ZipSystem> system,
+                   const std::vector<Order>& orders,
+                   Timestamp launchTime,
+                   Location startingPosition,
+                   std::shared_ptr<SpatialModelInterface> spatialModel) override;
 };
 }

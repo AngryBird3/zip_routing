@@ -10,6 +10,20 @@
 
 namespace zipline
 {
+
+Order::Order(const Order& order)
+    : received_time_(order.received_time_), hospital_(order.hospital_), priority_(order.priority_)
+{
+}
+
+Order& Order::operator=(const Order& order)
+{
+    received_time_ = order.received_time_;
+    hospital_ = order.hospital_;
+    priority_ = order.priority_;
+    return *this;
+}
+
 std::vector<Order> Order::LoadOrders(const std::filesystem::path &filename,
                                      const std::unordered_map<std::string, Hospital> &hospitals)
 {

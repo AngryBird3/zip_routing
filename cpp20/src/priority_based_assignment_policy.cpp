@@ -7,7 +7,7 @@
 
 namespace zipline {
 
-AssignmentResult PriorityBasedAssignmentPolicy::Assign(const std::vector<ZipSystem> &systems,
+AssignmentResult PriorityBasedAssignmentPolicy::Assign(std::vector<std::shared_ptr<ZipSystem>> systems,
     const std::vector<Order> &orders) const
 {
     AssignmentResult result;
@@ -17,8 +17,8 @@ AssignmentResult PriorityBasedAssignmentPolicy::Assign(const std::vector<ZipSyst
     std::unordered_map<int, double> estimatedDistance;
 
     for (const auto& sys : systems) {
-        load[sys.GetId()] = 0;
-        estimatedDistance[sys.GetId()] = 0.0;
+        load[sys->GetId()] = 0;
+        estimatedDistance[sys->GetId()] = 0.0;
     }
 
     // FCFS: assume orders already sorted by received_time
@@ -32,20 +32,20 @@ AssignmentResult PriorityBasedAssignmentPolicy::Assign(const std::vector<ZipSyst
                 continue;
 
             // Capacity check
-            if (load[sys.GetId()] >= sys.GetCapacity())
+            if (load[sys->GetId()] >= sys->GetCapacity())
                 continue;
 
             // Distance estimate (incremental)
             double inc =
-                spatialModel_.Distance(sys.GetPosition(), order.hospital());
+                spatialModel_.Distance(sys->GetPosition(), order.hospital().GetLocation());
 
-            if (estimatedDistance[sys.GetId()] + inc > sys.GetMaxDistance())
+            if (estimatedDistance[sys->GetId()] + inc > sys->GetMaxDistance())
                 continue;
 
             // Assign
-            result.assignedOrders[sys.GetId()].push_back(order);
-            load[sys.GetId()]++;
-            estimatedDistance[sys.GetId()] += inc;
+            result.assignedOrders[sys->GetId()].push_back(order);
+            load[sys->GetId()]++;
+            estimatedDistance[sys->GetId()] += inc;
             assigned = true;
             break;
         }
@@ -58,10 +58,10 @@ AssignmentResult PriorityBasedAssignmentPolicy::Assign(const std::vector<ZipSyst
     return result;
 }
 
-bool PriorityBasedAssignmentPolicy::canHandle(const ZipSystem &system, const Order &order) {
-    if (order.priority() == Order::Priority::kEmergency && system.GetPriority() == ZipSystem::Priority::EMERGENCY)
+bool PriorityBasedAssignmentPolicy::canHandle(std::shared_ptr<ZipSystem> system, const Order &order) {
+    if (order.priority() == Order::Priority::kEmergency && system->GetPriority() == ZipSystem::Priority::EMERGENCY)
         return true;
-    if (order.priority() == Order::Priority::kResupply && system.GetPriority() == ZipSystem::Priority::OTHER)
+    if (order.priority() == Order::Priority::kResupply && system->GetPriority() == ZipSystem::Priority::OTHER)
         return true;
     return true;
 

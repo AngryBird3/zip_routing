@@ -11,8 +11,7 @@ namespace zipline
 {
 
 /**
- * It represents flight, time it kicked off with order. I bet we can make this guy
- * responsible for ETA rather than actor- TODO
+ * Represents a flight: launch time, orders, and ETA. Flight owns ETA.
  */
 class Flight
 {
@@ -21,17 +20,16 @@ class Flight
     {
     }
 
-  Timestamp launchTime() const
-    {
-        return launch_time_;
-    }
+    Timestamp launchTime() const { return launch_time_; }
 
-  const std::vector<Order> & Orders() const
-    {
-        return orders_;
-    }
+    const std::vector<Order> &Orders() const { return orders_; }
+
+    void setEta(Timestamp eta) { eta_ = eta; }
+    Timestamp eta() const { return eta_; }
+
    private:
     Timestamp launch_time_{};
     std::vector<Order> orders_{};
+    Timestamp eta_{};
 };
 }  // namespace zipline

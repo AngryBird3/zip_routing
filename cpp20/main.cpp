@@ -7,6 +7,7 @@
 #include "order.h"
 #include "zip_system_factory.h"
 #include "include/zip_scheduler.h"
+#include "include/euclidean_spatial_model.h"
 
 namespace
 {
@@ -24,6 +25,7 @@ using zipline::Timestamp;
 
 int main()
 {
+    zipline::Location nestPosition{0,0}; // assumption
     auto hospitals = Hospital::LoadHospitals("../inputs/hospitals.csv");
     for (const auto &[hospital_name, hospital] : hospitals)
     {
@@ -33,8 +35,9 @@ int main()
 
     auto orders = Order::LoadOrders("../inputs/orders.csv", hospitals);
 
-    auto zips = zipline::ZipSystemFactory::Create(kNumZips, kMaxPackages, kMaxRange);
-    zipline::ZipScheduler scheduler{zips};
+    auto zips = zipline::ZipSystemFactory::Create(kNumZips, kMaxPackages, kMaxRange, nestPosition, kZipSpeed);
+    
+    zipline::ZipScheduler scheduler{zips, std::make_shared<zipline::EuclideanSpatialModel>()};
 
     size_t order_idx = 0;
     const auto num_orders = orders.size();

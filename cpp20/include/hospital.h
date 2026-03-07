@@ -14,9 +14,10 @@ namespace zipline
 class Hospital
 {
    public:
-    Hospital(const std::string &name, int north, int east) : name_(name), north_(north), east_(east)
-    {
-    }
+    Hospital(const std::string &name, int north, int east) : name_(name), north_(north), east_(east) {}
+
+    Hospital(const Hospital&) = default;
+    Hospital& operator=(const Hospital&) = default;
 
     static std::unordered_map<std::string, Hospital> LoadHospitals(const std::filesystem::path &filename);
 
@@ -38,9 +39,9 @@ class Hospital
     Location GetLocation() const { return {north_, east_}; }
 
    private:
-    const std::string name_;
-    const int north_;
-    const int east_;
+    std::string name_;
+    int north_;
+    int east_;
 };
 
 }  // namespace zipline

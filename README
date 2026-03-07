@@ -1,11 +1,37 @@
-## Approach
+# Traveling Zip
 
-## Layers
-** For launches
-* AssignmentPolicy: Which order go to which ZipSystem. May be each zip system belogs to a hex/grid. OR simple as
-  Emergency Zip vs Non-Emergency Zip.
-* RoutingPolicy - Once Zip system got the order assigned , how it routes from one order to another. Routing internally
-** Queueing Order
-* Just queue as it comes. Order by received time
-** Timing
-StateActor: wraps System, owns runtime state + Tick()
+Medical delivery simulation: zip systems (drones) are assigned orders, plan routes, and complete flights. C++20.
+
+## Build & run
+
+```bash
+mkdir -p build && cd build
+cmake ..
+make
+./traveling_zip
+```
+
+Inputs: `../inputs/hospitals.csv`, `../inputs/orders.csv` (relative to run directory).
+
+## Architecture
+
+**Launches**
+
+- **AssignmentPolicy** — Decides which orders go to which zip system (e.g. by priority, hex/grid, or distance). Example: `PriorityBasedAssignmentPolicy`.
+- **RoutingPolicy** — Given assigned orders, plans the route (stop order) and sets **ETA** on the returned `Flight`. Example: `TrivialRoutingPolicy` (keeps assignment order, computes ETA from spatial model + speed).
+
+**Queueing**
+
+- Orders are queued by receive time; scheduler processes them in order.
+
+**Timing**
+
+- **ZipSystemStateActor** — Wraps a zip system, holds current `Flight` and state (FREE/BUSY). On `Tick(now)`, if `now >= flight.eta()` it resets. Actor is dumb: it only stores state and advances time.
+- **Flight** — Owns launch time, orders, and ETA. ETA is set by the routing policy when the route is planned.
+
+## Key types
+
+- `ZipScheduler` — Owns actors, assignment policy, routing policy, order queue; drives `Tick` and `LaunchFlights`.
+- `Flight` — Launch time, order list, ETA (set by `RoutingPolicy::PlanRoute`).
+- `ZipSystemStateActor` — Holds system, optional active flight, state; `Assign` stores flight and sets BUSY; `Tick` checks ETA and resets when done.
+- `SpatialModelInterface` — Distance between locations (e.g. `EuclideanSpatialModel`).

@@ -7,6 +7,8 @@ namespace zipline {
 class PriorityBasedAssignmentPolicy : public AssignmentPolicy
 {
 public:
+  explicit PriorityBasedAssignmentPolicy(SpatialModelInterface& spatialModel) : spatialModel_(spatialModel) {}
+
   /**
    * @brief It does basic assignment. Assign to zip if:
    * 1. load(zip) > CAPACITY (max number of packages)
@@ -16,7 +18,7 @@ public:
    * @param orders
    * @return
    */
-  AssignmentResult Assign(const std::vector<ZipSystem> &systems,
+  AssignmentResult Assign(std::vector<std::shared_ptr<ZipSystem>> systems,
      const std::vector<Order> &orders) const override;
 
 private:
@@ -26,7 +28,7 @@ private:
    * @param order Order
    * @return true if emergency order has emergency serving system or Other order and other priorty
    */
-  static bool canHandle(const ZipSystem& sys, const Order& order) ;
+  static bool canHandle(std::shared_ptr<ZipSystem> sys, const Order& order) ;
 
   SpatialModelInterface& spatialModel_; ///< Spatial model to estimate distance
 };

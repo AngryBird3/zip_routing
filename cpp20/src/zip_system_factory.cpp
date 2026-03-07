@@ -7,6 +7,7 @@ std::unordered_map<ZipSystemId, ZipSystem> ZipSystemFactory::Create(
       int capacity,
       int maxRange,
       Location position,
+      int speed,
       unsigned seed
   ) {
   std::mt19937 rng(seed);
@@ -25,6 +26,7 @@ std::unordered_map<ZipSystemId, ZipSystem> ZipSystemFactory::Create(
         capacity,
         maxRange,
         position,
+        speed,
         priority
     ));
   }

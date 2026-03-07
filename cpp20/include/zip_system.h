@@ -16,12 +16,13 @@ public:
      EMERGENCY = 1,
   };
 
-  ZipSystem(int id, int capacity, int maxRange, Location position, Priority priority = Priority::OTHER)
+  ZipSystem(int id, int capacity, int maxRange, Location position, int speed, Priority priority = Priority::OTHER)
     : id_(id)
     , capacity_(capacity)
     , maxRange_(maxRange)
     , position_(position)
     , priority_(priority)
+    , speed_(speed)
   {}
 
   int GetId() const { return id_; }
@@ -36,6 +37,7 @@ public:
 
   int GetMaxDistance() const { return maxRange_; }
 
+  int GetSpeed() const { return speed_; }
 private:
   int id_{}; ///< ID
 
@@ -47,6 +49,7 @@ private:
 
   Priority priority_{}; ///< I am carrying out these orders
 
+  int speed_{};
   // We could "assign" this to certain Hex to zips
   // So even when they are at Nest, they are allocated
   // to certain hex or location

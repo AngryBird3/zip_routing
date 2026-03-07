@@ -42,7 +42,7 @@ public:
    * @param orders Order
    * @return Map of which zip system will carry which order
    */
-  virtual AssignmentResult Assign(const std::vector<ZipSystem> &systems,
+  virtual AssignmentResult Assign(std::vector<std::shared_ptr<ZipSystem>> systems,
       const std::vector<Order> &orders) const = 0;
 };
 

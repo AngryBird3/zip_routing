@@ -1,0 +1,4 @@
+/Users/dharabalaji/Documents/cpp_space/traveling_zip/build/CMakeFiles/traveling_zip_lib.dir
+/Users/dharabalaji/Documents/cpp_space/traveling_zip/build/CMakeFiles/traveling_zip.dir
+/Users/dharabalaji/Documents/cpp_space/traveling_zip/build/CMakeFiles/edit_cache.dir
+/Users/dharabalaji/Documents/cpp_space/traveling_zip/build/CMakeFiles/rebuild_cache.dir

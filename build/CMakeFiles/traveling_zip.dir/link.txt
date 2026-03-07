@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/traveling_zip.dir/cpp20/main.cpp.o -o traveling_zip  libtraveling_zip_lib.a

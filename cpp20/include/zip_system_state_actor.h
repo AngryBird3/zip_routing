@@ -1,22 +1,18 @@
 #pragma once
+#include <optional>
 #include "flight.h"
-#include "spatial_model_interface.h"
 #include "util.h"
 #include "zip_system.h"
 
 namespace zipline {
 /**
- * Could be derived from Actor. Responsible for managing ticking/ Updating based on time
- * I don't like having to use SpatialModelInterface to calculate ETA. I think
- * something else should own it and this Actor can take ETA when assign, but for
- * now going with this
+ * Dumb state holder: stores system, current flight, and state. Ticks until flight ETA then resets.
  */
 class ZipSystemStateActor {
 public:
   enum class ActorState { FREE, BUSY };
-  explicit ZipSystemStateActor(ZipSystem system,
-        std::shared_ptr<SpatialModelInterface> spatialModel)
-    : system_(std::move(system)), spatialModel_(spatialModel) {}
+  explicit ZipSystemStateActor(ZipSystem system)
+    : system_(std::make_shared<ZipSystem>(system)) {}
 
   /**
    * Update
@@ -36,13 +32,13 @@ public:
   ActorState State() const { return state_; }
 
   // Expose underlying system for AssignmentPolicy queries
-  const ZipSystem& GetSystem() const { return system_; }
+  const std::shared_ptr<ZipSystem> GetSystem() const { return system_; }
 
 private:
-  ZipSystem          system_;
-  ActorState      state_{ActorState::FREE};
-  std::optional<Flight> activeFlight_;
-  std::shared_ptr<SpatialModelInterface> spatialModel_{nullptr};
-  Timestamp eta_{};
+  void Reset();
+
+  std::shared_ptr<ZipSystem> system_;
+  ActorState state_{ActorState::FREE};
+  std::optional<Flight> flight_;
 };
 }
